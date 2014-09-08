@@ -37,6 +37,41 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<jdbc.driver.artifactId>mysql-connector-java</jdbc.driver.artifactId>
 		<jdbc.driver.version>5.1.21</jdbc.driver.version>
 	</properties>
+	<repositories>
+		
+		
+		
+
+		<repository>
+			<id>repo.springsource.org</id>
+			<name>repo.springsource.org-releases</name>
+			<url>http://repo.springsource.org/libs-milestone-local</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>repo.hibernate.org</id>
+			<name>repo.hibernate.org-releases</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>JBossMavenRepo</id>
+			<name>JBoss Maven2 repo</name>
+			<url>http://repository.jboss.org/maven2</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		
+	</repositories>
 	
 	
 
