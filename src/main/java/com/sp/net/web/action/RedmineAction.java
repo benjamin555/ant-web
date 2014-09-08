@@ -25,7 +25,6 @@ import com.opensymphony.xwork2.ActionSupport;
 import com.sp.net.domain.Form;
 import com.sp.net.domain.Rule;
 import com.sp.net.domain.Site;
-import com.sp.net.domain.rule.redmine.Case;
 import com.sp.net.domain.rule.redmine.ImportExcelRule;
 import com.sp.net.utils.JxlsUtils;
 
@@ -43,6 +42,7 @@ import com.sp.net.utils.JxlsUtils;
 @ExceptionMappings({ @ExceptionMapping(exception = "java.lang.Exception", result = "exception") })
 @Results({ @Result(name = "exception", location = "/common/error.jsp"),@Result(name = "json", location = "/WEB-INF/content/json.jsp")})
 public class RedmineAction  extends ActionSupport {
+	private static final String EXCEL_XML_CONFIG_EXCEL_MAPPING_TEMP_CUSTOMER_XML = "/excelXMLConfig/excelMappingTempCustomer.xml";
 	private static final String EXCEL_XML_CONFIG_EXCEL_MAPPING_CASE_XML = "/excelXMLConfig/excelMappingCase.xml";
 	private Logger logger = LoggerFactory.getLogger(RedmineAction.class);
 	private static final String RULES = "rules";
@@ -69,9 +69,15 @@ public class RedmineAction  extends ActionSupport {
 			Form form = redmineSite.findForm(formKey);
 			Rule rule =form.findRule(ruleKey) ;
 			if (rule instanceof ImportExcelRule) {
-				List<Case> c = getImportBeans();
+				List<Object> c = new ArrayList<Object>();
+				if ("newTempTask".equals(formKey)) {
+				 c= getImportBeans(EXCEL_XML_CONFIG_EXCEL_MAPPING_TEMP_CUSTOMER_XML);
+				}else {
+				 c= getImportBeans(EXCEL_XML_CONFIG_EXCEL_MAPPING_CASE_XML);
+				}
+				
 				Map<String, Object> formValueMap = new HashMap<String, Object>();
-				for (Case case1 : c) {
+				for (Object case1 : c) {
 					formValueMap.put("data", case1);
 					form.setFormValueMap(formValueMap );
 					form.perform(rule);
@@ -88,12 +94,12 @@ public class RedmineAction  extends ActionSupport {
 	
 	
 	
-	private List<Case> getImportBeans() throws FileNotFoundException, Exception {
+	private List<Object> getImportBeans(String excelMap) throws FileNotFoundException, Exception {
 		
 		InputStream inputXLS = new FileInputStream(dataExcel);
-		InputStream inputXML = getClass().getResourceAsStream(EXCEL_XML_CONFIG_EXCEL_MAPPING_CASE_XML);
+		InputStream inputXML = getClass().getResourceAsStream(excelMap);
 		Map beans = new HashMap();
-		List<Case> c = new ArrayList<Case>();
+		List<Object> c = new ArrayList<Object>();
 		beans.put("result01", c);
 		JxlsUtils.readXLS(inputXLS, inputXML, beans);
 		return c;

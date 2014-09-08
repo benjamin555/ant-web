@@ -23,7 +23,7 @@
 	<div class="container">
 		<div class="row">
 		<h3>批量新建</h3>
-		<form  role="form" action="<%=basePath%>redmine/perform.action?formKey=newTask&ruleKey=importExcel" method="post"
+		<form  role="form" action="<%=basePath%>redmine/perform.action?formKey=<s:property value="#parameters.formKey" />&ruleKey=importExcel" method="post"
 				enctype="multipart/form-data">
 			<div class="form-group">
 				<span>请选择excel</span> <input

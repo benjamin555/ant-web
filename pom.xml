@@ -37,6 +37,8 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<jdbc.driver.artifactId>mysql-connector-java</jdbc.driver.artifactId>
 		<jdbc.driver.version>5.1.21</jdbc.driver.version>
 	</properties>
+	
+	
 
 	<!-- 依赖项定义 -->
 	<dependencies>
