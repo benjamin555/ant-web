@@ -31,6 +31,7 @@
 			<ul class="nav nav-pills nav-stacked">
 				<s:iterator var="rule" value="#f.rules">
 					<li class="active"><a href="<%=basePath%>/redmine/rule-<s:property value="#rule.key" />.action?formKey=<s:property value="#f.key" />"  ><s:property value="#rule.name" /></a></li>
+					<li class="active"><a href="<%=basePath%>/redmine/excelDownload.action?formKey=<s:property value="#f.key" />"  >excel模版下载</a></li>
 				</s:iterator>
 			</ul>
 		</s:iterator>

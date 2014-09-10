@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.struts2.ServletActionContext;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.ExceptionMapping;
 import org.apache.struts2.convention.annotation.ExceptionMappings;
@@ -27,6 +28,7 @@ import com.sp.net.domain.Rule;
 import com.sp.net.domain.Site;
 import com.sp.net.domain.rule.redmine.ImportExcelRule;
 import com.sp.net.utils.JxlsUtils;
+import com.sp.net.web.utils.ServletUtils;
 
 /**
 * @author 陈嘉镇
@@ -61,6 +63,25 @@ public class RedmineAction  extends ActionSupport {
 		redmineSite.login(userName,password);
 		return RULES;
 	}
+	
+	@Action(value="excelDownload")
+	public String excelDownload() throws Exception {
+		String path = "";
+		String rename = "";
+		String xlsBasePath=ServletUtils.getBasepath(ServletActionContext.getRequest())+"xls/";
+		if ("newTempTask".equals(formKey)) {
+			path=xlsBasePath+"tempCustomer.xls";
+			rename="潜在客户";
+		}else {
+			path=xlsBasePath+"case.xls";
+			rename="案例";
+		}
+		ServletUtils.sendExcel(path, rename, ServletActionContext.getResponse());
+		
+		return null;
+	}
+	
+	
 	
 	
 	@Action(value="perform")
