@@ -125,6 +125,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<!-- struts end -->
 	</dependencies>
 	<build>
+			<outputDirectory>${project.basedir}/src/main/webapp/WEB-INF/classes/</outputDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
