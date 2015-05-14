@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+					     http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd     
+					     http://cxf.apache.org/transports/http/configuration    
+					     http://cxf.apache.org/schemas/configuration/http-conf.xsd
+					   " default-lazy-init="true" >
+					   
+					   
+	<bean id="webClient" class="com.sp.net.WebClient" scope="prototype" init-method="initClient"></bean>
+	<bean id="proxyClient" class="com.sp.net.WebClient" scope="prototype" init-method="initClient" >
+		<property name="enableProxy" value="true"></property>
+		<property name="proxyServer" value="proxy01.cnooc"></property>
+		<property name="proxyPort" value="8080"></property>
+	</bean>
+
+
+
+	
+	<!--redmine import  -->
+	
+	<bean id="redmineSite" class="com.sp.net.domain.Site" scope="singleton">
+		<property name="url" value="http://localhost/redmine"></property>
+		<property name="webClient" ref="webClient"></property>
+		<property name="loginForm">
+			<bean class="com.sp.net.domain.LoginForm">
+				<property name="site" ref="redmineSite"></property>
+				<property name="key" value="login"></property>
+				<property name="url" value="http://localhost/redmine/login"></property>
+				<property name="formUrl" value="/redmine/login.action"></property>
+				<property name="rules">
+					<list>
+						<bean class="com.sp.net.domain.rule.redmine.LoginRule">
+							<property name="key" value="redmineLr"></property>
+							<property name="name" value="登录"></property>
+						</bean>
+					</list>
+				</property>
+			</bean>
+		</property>
+		<property name="forms">
+			<list>
+				<bean class="com.sp.net.domain.Form">
+					<property name="site" ref="redmineSite"></property>
+					<property name="key" value="newTask"></property>
+					<property name="url"
+						value="http://localhost/redmine/projects/record/issues/new"></property>
+					<property name="rules">
+						<list>
+							<bean class="com.sp.net.domain.rule.redmine.ImportExcelRule">
+								<property name="key" value="importExcel"></property>
+								<property name="name" value="设备销售批导"></property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				
+				<bean class="com.sp.net.domain.Form">
+					<property name="site" ref="redmineSite"></property>
+					<property name="key" value="newTempTask"></property>
+					<property name="url"
+						value="http://localhost/redmine/projects/client-record/issues/new"></property>
+					<property name="rules">
+						<list>
+							<bean class="com.sp.net.domain.rule.redmine.ImportExcelRule">
+								<property name="key" value="importExcel"></property>
+								<property name="name" value="客户信息批导"></property>
+							</bean>
+						</list>
+					</property>
+				</bean>
+				
+				
+			</list>
+		</property>
+	</bean>
+</beans>
