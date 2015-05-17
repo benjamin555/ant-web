@@ -56,6 +56,7 @@ public class RedmineAction  extends ActionSupport {
 	private String ruleKey;
 	private String jsonStr;
 	
+	
 	private File dataExcel ;
 	
 	@Action(value="login")
@@ -69,13 +70,8 @@ public class RedmineAction  extends ActionSupport {
 		String path = "";
 		String rename = "";
 		String xlsBasePath=ServletUtils.getBasepath(ServletActionContext.getRequest())+"xls/";
-		if ("newTempTask".equals(formKey)) {
-			path=xlsBasePath+"tempCustomer.xls";
-			rename="潜在客户";
-		}else {
-			path=xlsBasePath+"case.xls";
-			rename="案例";
-		}
+		path=xlsBasePath+formKey+".xls";
+		rename=redmineSite.findForm(formKey).getFormName();
 		ServletUtils.sendExcel(path, rename, ServletActionContext.getResponse());
 		
 		return null;
@@ -91,11 +87,7 @@ public class RedmineAction  extends ActionSupport {
 			Rule rule =form.findRule(ruleKey) ;
 			if (rule instanceof ImportExcelRule) {
 				List<Object> c = new ArrayList<Object>();
-				if ("newTempTask".equals(formKey)) {
-				 c= getImportBeans(EXCEL_XML_CONFIG_EXCEL_MAPPING_TEMP_CUSTOMER_XML);
-				}else {
-				 c= getImportBeans(EXCEL_XML_CONFIG_EXCEL_MAPPING_CASE_XML);
-				}
+				 c= getImportBeans("/excelXMLConfig/"+formKey+".xml");
 				
 				Map<String, Object> formValueMap = new HashMap<String, Object>();
 				for (Object case1 : c) {
