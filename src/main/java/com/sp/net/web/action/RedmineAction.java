@@ -61,7 +61,10 @@ public class RedmineAction  extends ActionSupport {
 	
 	@Action(value="login")
 	public String login() throws Exception {
-		redmineSite.login(userName,password);
+		boolean b =redmineSite.login(userName,password);
+		if (!b) {
+			return "exception";
+		}
 		return RULES;
 	}
 	
@@ -85,12 +88,15 @@ public class RedmineAction  extends ActionSupport {
 		try {
 			Form form = redmineSite.findForm(formKey);
 			Rule rule =form.findRule(ruleKey) ;
+			 logger.info("formKey:{}",formKey);
 			if (rule instanceof ImportExcelRule) {
 				List<Object> c = new ArrayList<Object>();
 				 c= getImportBeans("/excelXMLConfig/"+formKey+".xml");
-				
+				 logger.info("formKey:{}",formKey);
+				logger.info("c:{}",c);
 				Map<String, Object> formValueMap = new HashMap<String, Object>();
 				for (Object case1 : c) {
+					 logger.info("case1:{}",case1);
 					formValueMap.put("data", case1);
 					form.setFormValueMap(formValueMap );
 					form.perform(rule);
