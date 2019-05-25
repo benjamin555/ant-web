@@ -5,11 +5,12 @@
 	version="3.0">
 	<display-name>ant-web</display-name>
 
-	<!-- Spring ApplicationContext配置文件的路径,可使用通配符,多个路径用,号分隔 此参数用于后面的Spring Context 
-		Loader -->
+	<!-- Spring ApplicationContext配置文件的路径,可使用通配符,多个路径用,号分隔 此参数用于后面的Spring Context
+		Loader
+		模糊匹配的表达式,现在不知道为什么不生效，使用全限定名代替	-->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
-		<param-value>classpath*:/applicationContext.xml,classpath*:/applicationContext*.xml</param-value>
+		<param-value>classpath*:/applicationContext.xml,classpath*:/applicationContext-site.xml,classpath*:/applicationContext*.xml</param-value>
 	</context-param>
 
 	<!-- Filter 定义 -->

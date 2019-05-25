@@ -32,6 +32,11 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<!-- Plugin的属性定义 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<jdk.version>1.6</jdk.version>
+		<tomcat.version>2.2</tomcat.version>
+		<webserver.port>8080</webserver.port>
+		<downloadSources>true</downloadSources>
+
+
 		<!-- 项目属性 -->
 		<jdbc.driver.groupId>mysql</jdbc.driver.groupId>
 		<jdbc.driver.artifactId>mysql-connector-java</jdbc.driver.artifactId>
@@ -135,6 +140,41 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
+			<!-- tomcat7插件 -->
+			<plugin>
+				<groupId>org.apache.tomcat.maven</groupId>
+				<artifactId>tomcat7-maven-plugin</artifactId>
+				<version>${tomcat.version}</version>
+				<configuration>
+					<port>${webserver.port}</port>
+					<path>/${project.artifactId}</path>
+					<uriEncoding>${project.build.sourceEncoding}</uriEncoding>
+				</configuration>
+			</plugin>
+
+			<!--<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>install</id>
+						<phase>install</phase>
+						<goals>
+							<goal>sources</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>src/main/webapp/WEB-INF/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>-->
 		</plugins>
 	</build>
 </project>
